@@ -1,0 +1,515 @@
+body {
+    background-color: #a8b9b7;
+}
+
+
+.header {
+    background-color: #ffffff;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 70px;
+    display: flex;
+    flex-flow: row;
+    align-items: flex-start;
+    z-index: 10;
+    border-radius: 0px;
+    overflow: hidden;
+}
+
+.mobileheader {
+    background-color: #ffffff;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    z-index: 9;
+    border-radius: 0px;
+    overflow: hidden;
+}
+
+.titlelogo {
+    display: flex;
+    height: 60px;
+    width: 60px;
+}
+
+.titlelogomobile {
+    display: block;
+    position: fixed;
+    right: 10px;
+    top: 5px;
+    height: 50px;
+    width: 50px;
+}
+
+.contenthead {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    width: auto;
+    height: 70px;
+    margin-left: 10px;
+    margin-top: 0px;
+}
+
+.buttonmenu {
+    height: 70px;
+    width: 150px;
+    background: transparent;
+    color: rgb(0, 0, 0);
+    font-size: 15px;
+    border: none;
+    margin: 0px;
+    font-family: 'Roboto Bold';
+    transition-duration: 0.2s;
+}
+
+.buttonmenu:hover {
+    background: linear-gradient(225deg, #88ff98, #5cff9b);
+    color: #1c1f24;
+}
+
+
+
+.contentpage {
+    display: flex;
+    position: relative;
+    top: 65px;
+    height: auto;
+    flex-flow: wrap;
+    max-width: 1200px;
+    margin: auto;
+}
+
+p {
+    font-family: 'Roboto Regular';
+    font-size: 20px;
+    text-justify: distribute;
+    text-align: justify;
+    color: #222222;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 10px;
+    padding-bottom: 0px;
+}
+
+h1 {
+    color: #000000;
+    font-family: 'Roboto Bold';
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 30px;
+    padding-bottom: 0px;
+}
+
+div {
+    border-radius: 10px;
+}
+
+.contentnumber {
+    position: relative;
+    display: flex;
+    height: calc(100%);
+    width: calc(100%/3 - 5px);
+    margin: auto;
+    flex-flow: column;
+}
+
+.contentnumbers {
+    width: calc(80% - 20px);
+    display: flex;
+    flex-flow: wrap;
+    height: 300px;
+    margin-right: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 8px;
+}
+
+.launchbutton {
+    height: 300px;
+    background: linear-gradient(45deg, #83ffb9, #70e4ff);
+    width: 20%;
+    text-align: center;
+    border: none;
+    font-size: 20px;
+    border-radius: 10px;
+    margin: 10px;
+    font-family: 'Roboto Bold';
+    box-shadow: 0px 0px 0px #000000;
+    transition-duration: 0.2s;
+    color: #000000e8;
+}
+
+.launchbutton:hover {
+    background: linear-gradient(45deg, #95fdc2, #8de7fc);
+    box-shadow: 2px 2px 5px #000000ab;
+    transform: translate(-2px, -2px);
+    color: #0000009e;
+}
+
+.launchplantbutton {
+    background: linear-gradient(45deg, #83ffb9, #70e4ff);
+    text-align: center;
+    border: none;
+    font-size: 20px;
+    border-radius: 10px;
+    margin: 10px;
+    font-family: 'Roboto Bold';
+    box-shadow: 0px 0px 0px #000000;
+    transition-duration: 0.2s;
+    color: #000000e8;
+    width: calc(100% - 20px);
+    height: 50px;
+}
+
+.launchplantbutton:hover {
+    background: linear-gradient(45deg, #95fdc2, #8de7fc);
+    box-shadow: 2px 2px 5px #000000ab;
+    transform: translate(-2px, -2px);
+    color: #0000009e;
+}
+
+.number {
+    font-size: 48px;
+    padding: 0px;
+    text-align: center;
+    margin: auto;
+    height: 125px;
+    color: #000000c9;
+}
+
+.textnumber {
+    font-size: 20px;
+    text-align: center;
+    padding: 0px;
+    color: #000000de;
+    font-family: 'Roboto Bold';
+    margin: auto;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.nbdateprojet {
+    font-size: 30px;
+}
+
+.titlepageprojets {
+    height: 200px;
+    margin-bottom: 20px;
+}
+
+.contenttext {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-flow: column;
+    margin-top: 20px;
+}
+
+.novpadding {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.centerelement {
+    margin: auto;
+}
+
+.last-environment-measures {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    margin-top: 10px;
+}
+
+.titlebox {
+    margin: auto;
+    text-align: center;
+    font-size: 20px;
+    font-family: 'Roboto Bold';
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.elementscontainer {
+    display: flex;
+    flex-flow: row;
+}
+
+
+.contentplangreenhouse {
+    position: relative;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    margin: auto;
+    flex-flow: row;
+}
+
+.greenhouse {
+    margin: 20px;
+    width: calc(100% - 40px);
+    align-self: center;
+    overflow: hidden;
+}
+
+.detailsplant {
+    margin: 20px;
+    width: calc(100% - 480px);
+    align-self: center;
+    height: calc(100% - 40px);
+    background: linear-gradient(225deg, #cee1e0, #caddde);
+    display: flex;
+    flex-flow: column;
+    align-content: center;
+    align-items: center;
+}
+
+.lastimage {
+    border-radius: 10px;
+    margin: 10px;
+    width: calc(100% - 20px);
+    height: auto;
+    background-color: #ffffff;
+}
+
+.plant {
+    position: relative;
+    width: 45px;
+    height: 45px;
+    border-radius: 45px;
+    background: linear-gradient(45deg, #2c9b49, #9af89a);
+    transition-duration: 0.2s;
+}
+
+.plant:hover {
+    background: linear-gradient(45deg, #3bd163, #b5fdb5);
+    transform: translate(-2px, -2px);
+}
+
+
+
+/**
+
+GREENHOUSE PLAN PROPORTION
+
+**/
+
+@media screen and (max-width: 460px) {
+    .greenhouse {
+        height: calc((100vw - 40px) * 3.14);
+        width: calc(100% - 40px);
+        max-width: 400px;
+    }
+}
+
+@media screen and (min-width: 461px) {
+    .greenhouse {
+        height: 1256px;
+        width: 400px;
+    }
+}
+
+/**
+
+PARTIE RESPONSIVE DESIGN
+
+**/
+
+@media screen and (max-width: 900px) {
+    .last-environment-measures {
+        flex-flow: column;
+    }
+
+    .detailsplant {
+        width: calc(100% - 40px);
+        height: auto;
+    }
+
+    .textnumber {
+        font-size: 15px;
+    }
+
+    .contentplangreenhouse {
+        flex-flow: column;
+    }
+
+    .contentnumbers {
+        width: calc(100% - 20px);
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 20px;
+        height: 150px;
+    }
+
+    .launchbutton {
+        width: calc(100% - 20px);
+        height: 50px;
+        margin-bottom: 20px;
+        margin-top: 0px;
+    }
+
+    .contentpage {
+        top: 50px;
+    }
+
+    .header {
+        position: fixed;
+        top: 0px;
+        left: -200px;
+        width: 200px;
+        height: 100%;
+        flex-flow: column;
+        overflow-x: hidden;
+        overflow-y: auto;
+        transition-duration: 0.2s;
+    }
+
+    .buttonmenu {
+        width: 200px;
+    }
+
+    .contenthead {
+        flex-flow: column;
+        margin-left: 0px;
+        margin-top: 10px;
+        width: 200px;
+        height: auto;
+    }
+
+    .openmenu {
+        display: block;
+    }
+
+    .number {
+        font-size: 30px;
+        height: 60px;
+    }
+
+    .maintextpageprojet {
+        height: 300px;
+    }
+
+    .contentprojet {
+        width: 100%;
+        flex-basis: 100%;
+        flex-grow: 0;
+        margin-inline-start: auto;
+        margin-inline-end: auto;
+    }
+
+    .cvabout {
+        width: 100%;
+    }
+
+    .cvformations {
+        width: 100%;
+        margin-left: 0px;
+    }
+
+    .cvinterests {
+        width: 100%;
+        margin-left: 0px;
+    }
+
+    .cvsoft {
+        width: 100%;
+    }
+
+    .elementscontainer {
+        flex-flow: column;
+    }
+}
+
+
+/**
+
+COULEURS
+
+**/
+
+.orange {
+    background: linear-gradient(135deg, #ff7c7c, #ffcd70);
+}
+
+.purple {
+    background: linear-gradient(45deg, #83a2ff, #f025ed);
+}
+
+.green {
+    background: linear-gradient(45deg, #78ff93, #77dfff);
+}
+
+.blue {
+    background: linear-gradient(315deg, #7086ff, #2fffe2);
+}
+
+.red {
+    background: linear-gradient(45deg, #ff6363, #ffc045);
+}
+
+.white {
+    background: linear-gradient(225deg, #eff, #edfffd);
+}
+
+.grey {
+    background: linear-gradient(225deg, #92a4a1, #73918c);
+}
+
+
+
+.done {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0id2hpdGUiIHdpZHRoPSIxOHB4IiBoZWlnaHQ9IjE4cHgiPjxwYXRoIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNOSAxNi4yTDQuOCAxMmwtMS40IDEuNEw5IDE5IDIxIDdsLTEuNC0xLjRMOSAxNi4yeiIvPjwvc3ZnPg==");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position-x: left;
+    background-position-y: center;
+}
+
+.error {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0id2hpdGUiIHdpZHRoPSIxOHB4IiBoZWlnaHQ9IjE4cHgiPjxwYXRoIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNMTIgMkM2LjQ4IDIgMiA2LjQ4IDIgMTJzNC40OCAxMCAxMCAxMCAxMC00LjQ4IDEwLTEwUzE3LjUyIDIgMTIgMnptMSAxNWgtMnYtMmgydjJ6bTAtNGgtMlY3aDJ2NnoiLz48L3N2Zz4=");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position-x: left;
+    background-position-y: center;
+}
+
+.warning {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0id2hpdGUiIHdpZHRoPSIxOHB4IiBoZWlnaHQ9IjE4cHgiPjxwYXRoIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNMSAyMWgyMkwxMiAyIDEgMjF6bTEyLTNoLTJ2LTJoMnYyem0wLTRoLTJ2LTRoMnY0eiIvPjwvc3ZnPg==");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position-x: left;
+    background-position-y: center;
+}
+
+.rouge {
+    background: linear-gradient(45deg, #ff2e2eb5, #ff448ac9);
+}
+
+.orange {
+    background: linear-gradient(45deg, #ff8921d6, #fff229d9);
+}
+
+.vert {
+    background: linear-gradient(45deg, #57ff3ede, #40ffb7d6);
+}
+
+#contentnotifs {
+    bottom: 0px;
+    right: 5px;
+    position: fixed;
+    height: auto;
+    max-width: 250px;
+    width: 100%;
+    z-index: 1;
+}
+
+.contentmessage {
+    margin: auto;
+    padding: 10px;
+}

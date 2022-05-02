@@ -1,0 +1,118 @@
+<html>
+
+<head>
+    <title>The Cultivator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='script/main.js') }}"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<style>
+    @font-face {
+        font-family: 'Roboto Regular';
+        src: url('{{ url_for('static', filename='font/Roboto-Regular.ttf') }}');
+    }
+
+    @font-face {
+        font-family: 'Roboto Bold';
+        src: url('{{ url_for('static', filename='font/Roboto-Bold.ttf') }}');
+    }
+
+    .openmenu {
+        height: 60px;
+        width: 60px;
+        position: fixed;
+        top: 0px;
+        left: 10px;
+        background-color: #00000000;
+        background-image: url('{{ url_for('static', filename='img/menu.svg') }}');
+        background-repeat: no-repeat;
+        border: none;
+        margin: 0px;
+        transition-duration: 0.2s;
+        display: block;
+        z-index: 9;
+        border-radius: 40px;
+        background-size: 50px;
+        background-position: 5px;
+    }
+
+    .openmenu:hover {
+        background: url('{{ url_for('static', filename='img/menu.svg') }}');
+        background-color: #9af79a;
+        background-repeat: no-repeat;
+        background-size: 50px;
+        background-position: 10px;
+        color: #222222;
+    }
+</style>
+
+<body>
+    <div class="mobileheader" onclick="closemenu();">
+        <img class="titlelogomobile" src="{{ url_for('static', filename='img/logo.png') }}"></img>
+    </div>
+    <button class="openmenu" onclick="openmenu();"></button>
+    <div class="header">
+        <div class="contenthead">
+            <img class="titlelogo" src="{{ url_for('static', filename='img/logo.png') }}"></img>
+        </div>
+        <div class="contenthead">
+            <button class="buttonmenu green" onclick="window.location.href='/'">ACCUEIL</button>
+            <button class="buttonmenu" onclick="window.location.href='/settings'">PARAMETRES</button>
+        </div>
+    </div>
+    <div class="contentpage" onclick="closemenu();">
+        <div class="last-environment-measures white">
+            <div style="display:flex;flex-flow:row">
+                <p class="titlebox">Dernières mesures</p>
+                <p class="titlebox">{{ date }}</p>
+            </div>
+            <div class="elementscontainer">
+                <div class="contentnumbers">
+                    <div class="contentnumber red ">
+                        <p class="textnumber">Température</p>
+                        <h1 class="number">{{ AirTemperature }} °C</h1>
+                    </div>
+                    <div class="contentnumber blue ">
+                        <p class="textnumber">Hygrométrie</p>
+                        <h1 class="number">{{ AirHumidity }} %</h1>
+                    </div>
+                    <div class="contentnumber purple">
+                        <p class="textnumber">Humidité du sol</p>
+                        <h1 class="number">{{ SoilMoisture }} %</h1>
+                    </div>
+                </div>
+                <button class="launchbutton" onclick="launchAcquisition();">Lancer une nouvelle acquisition</button>
+            </div>
+        </div>
+        <div class="last-environment-measures white">
+            <div style="display:flex;flex-flow:row">
+                <p class="titlebox">Plan de la serre</p>
+            </div>
+            <div class="elementscontainer">
+                <div class="contentplangreenhouse grey">
+                    <div class="greenhouse white">
+                        {% for i in range(0,plants|length) %}
+                        <div class="plant" onclick="getPlantDetails({{ plants[i][0] }})" style="top:calc( {{ ( plants[i][1] / xmax) * 100 }}% - {{ 45*i }}px - 22px );left:calc( {{ ( plants[i][2] / ymax) * 100 }}% - 22px )"></div>
+                        {% endfor %}
+                    </div>
+                    <div class="detailsplant">
+                        <h1>Détails</h1>
+                        <img class="lastimage" src="{{ url_for('static', filename='img/no-image.svg') }}"></img>
+                        <h1>Informations</h1>
+                        <table>
+                            <tr><td><p>Id:</p></td><td><p id="pid">?</p></td></tr>
+                            <tr><td><p>Coordonnée x:</p></td><td><p id="pcx">?</p></td></tr>
+                            <tr><td><p>Coordonnée y:</p></td><td><p id="pcy">?</p></td></tr>
+                            <tr><td><p>Surface:</p></td><td><p id="psa">?</p></td></tr>
+                        </table>
+                        <button class="launchplantbutton" onclick="launchPlantAcquisition();">Lancer une nouvelle acquisition</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table id="contentnotifs"></table>
+</body>
+
+</html>
