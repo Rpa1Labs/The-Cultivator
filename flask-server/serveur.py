@@ -8,8 +8,13 @@ from flask import Flask , render_template, request
 from flask_socketio import SocketIO
 
 #other imports
-import json
+import json,base64
 from datetime import datetime
+
+#increase max_content_length to allow large images
+import sys
+import csv
+csv.field_size_limit(sys.maxsize)
 
 #flask init
 app = Flask(__name__)
@@ -70,6 +75,12 @@ def deletePlant(id):
     db.commit()
     db.close()
 
+def updatePlant(id,x,y):
+    db = sqlite3_connect(database)
+    cur = db.cursor()
+    cur.execute("UPDATE plants SET x=?,y=? WHERE Id=?",(x,y,id))
+    db.commit()
+    db.close()
 
 """
 SocketIO
@@ -84,8 +95,10 @@ def on_connect():
 # Socketio disconnect event
 @socketio.on('disconnect')
 def on_disconnect():
+    global jetson
     #TODO: manage disconnection for data acquisition triggering
     print('Client disconnected')
+
 
 # Soketio message event
 @socketio.on('dataTransmission')
@@ -113,20 +126,15 @@ def handle_message(msg):
         client.close()
 
 
-#TODO: A revoir la fonction de transmission des images
 @socketio.on('imageTransmission')
 def write(msg):
     #decode json
-    print(msg)
     data = json.loads(msg)
-    print(data)
     with InfluxDBClient(url=bddUrl, token=token, org=org) as client:
         write_api = client.write_api(write_options=SYNCHRONOUS)
         #add image, plantid and surface area to influxdb
-        data = "image imagevalue=" + data["image"] + " plantid=" + data["id"] + " surface=" + data["surface"]
+        data = "image,plantid=" + data["id"] + " imagevalue=\"" + data["image"] + "\"" + ",surface=" + data["surface"]
         write_api.write(bucket2, org, data)
-        #data = "image imagevalue="+msg 
-        #write_api.write(bucket2, org, data)
         client.close()
 
 
@@ -136,15 +144,45 @@ Acquisition trigger
 
 def launchAcquisition():
     print("Acquisition launched")
+    socketio.emit('measureTrigger',"")
     #socketio.emit('dataTransmission', getLastMeasures())
 
-def launchPlantAcquisition():
+def launchPlantAcquisition(id):
     print("Plant acquisition launched")
-    #socketio.emit('dataTransmission', getLastPlantMeasures())
+    #send image trigger to jetson
+    global jetson
+    socketio.emit('imageTrigger', json.dumps({"id":id,"x":getPlant(id)[1],"y":getPlant(id)[2]}))
 
+#Setup trigger for data acquisition
+@socketio.on('setupTrigger')
+def setupTrigger(data):
+    #get socketio client
+    #TODO: complete this
+    print("Setup trigger")
+
+    
 """
 HTTP WEB CLIENT PART
 """
+
+def getLastPlantMeasures(id):
+    #get last measures from influxdb
+    result = {}
+    with InfluxDBClient(url=bddUrl, token=token, org=org) as client:
+        query = 'from(bucket: "' + bucket2 + '") |> range(start: 0) |> last() |> filter(fn:(r) => r._measurement == "image" and r.plantid == "' + str(id) + '")'
+        tables = client.query_api().query(query=query, org=org)
+        datas = []
+        for table in tables :
+            for record in table.records:
+                datas.append(record.values)
+        
+        for data in datas:
+            field = data["_field"]
+            value = data["_value"]
+            time= data["_time"]
+            result[field] = str(value)
+            result["time"] = time.timestamp()
+    return result
 
 def getLastMeasures():
     
@@ -232,8 +270,13 @@ def WEBAPI():
     if action == "getLastMeasures":
         data_return = getLastMeasures()
     elif action == "addPlant":
-        addPlant(data["x"],data["y"])
-        data_return = getPlants()
+        #check if plant coordinates are valid
+        if data["x"] > 1030 or data["x"] < 0 or data["y"] > 328 or data["y"] < 0:
+            code = 400
+            data_return = {"error":"Coordinates are not valid"}
+        else:
+            addPlant(data["x"],data["y"])
+            data_return = getPlants()
     elif action == "getPlants":
         data_return = getPlants()
     elif action == "getPlant":
@@ -241,21 +284,32 @@ def WEBAPI():
     elif action == "launchAcquisition":
         launchAcquisition()
     elif action == "launchPlantAcquisition":
-        launchPlantAcquisition()
+        #get plant id
+        plantId = data["id"]
+        launchPlantAcquisition(plantId)
     elif action == "deletePlant":
-        #deletePlant(data["id"])
-        #data_return = getPlants()
-        pass
+        deletePlant(data["id"])
     elif action == "updatePlant":
-        #updatePlant(data["id"],data["x"],data["y"])
-        #data_return = getPlants()
-        pass
+        #check if plant coordinates are valid
+        if data["x"] > 1030 or data["x"] < 0 or data["y"] > 328 or data["y"] < 0:
+            code = 400
+            data_return = {"error":"Coordinates are not valid"}
+        else:
+            updatePlant(data["id"],data["x"],data["y"])
+            data_return = getPlants()
     elif action == "getPlantDetails":
         #get plant details from database
         try:
+            image = getLastPlantMeasures(data["id"])
+            #if image is an empty dict, the plant is not in the database
+            if len(image.keys()) == 0:
+                #read no-image.jpg in the static folder
+                image = "static/img/no-image.jpg"
+                #transform it into a base64 string
+                imagevalue = base64.b64encode(open(image, "rb").read())
+                image = { "imagevalue" : imagevalue.decode('utf-8') , "surface" : " - " }
             result = getPlant(data["id"])
-            data_return = { "id": result[0], "x": result[1], "y": result[2], "surface" : 1000}
-            #TODO: get surface area and image from influxdb
+            data_return = { "id": result[0], "x": result[1], "y": result[2],  "image": image["imagevalue"], "surface":image["surface"] }
         except:
             code = 404
             data_return = "Plant not found"

@@ -2,6 +2,17 @@ body {
     background-color: #a8b9b7;
 }
 
+input {
+    border-radius: 5px;
+    border: none;
+    margin: auto;
+    text-align: center;
+    font-size: 20px;
+    width: calc( 100% - 40px );
+    height: 100%;
+    position: relative;
+    margin-left: 20px;
+}
 
 .header {
     background-color: #ffffff;

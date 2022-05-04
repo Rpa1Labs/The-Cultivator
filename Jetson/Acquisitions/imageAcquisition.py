@@ -1,3 +1,4 @@
+# coding=utf-8
 
 import base64
 import cv2
@@ -46,7 +47,7 @@ def show_camera():
         
         #convert to base64
         ret_val, buffer = cv2.imencode('.jpg', image)
-        jpg_as_text = base64.b64encode(buffer)
+        jpg_as_text = unicode(base64.b64encode(buffer))
         
         # Close the video capture object
         video_capture.release()
@@ -67,7 +68,7 @@ def main(id=0,x=0,y=0):
     #TODO: Process the image to get the surface area
     
     text_image,image = show_camera()
-    surfaceArea = process_image(image)
+    surfaceArea = unicode(process_image(image))
 
     data= {"id":id,"image":text_image,"surface":surfaceArea}
 

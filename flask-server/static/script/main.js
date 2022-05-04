@@ -38,6 +38,10 @@ function getPlantDetails(id) {
             document.getElementById("pcx").innerHTML = response["x"] + "mm";
             document.getElementById("pcy").innerHTML = response["y"] + "mm";
             document.getElementById("psa").innerHTML = response["surface"] + " pixels²";
+            //if image is not null
+            if (response["image"] != null) {
+                document.getElementById("pimg").src = "data:image/jpeg;base64," + response["image"];
+            }
             scriptstat("vert", "Plante chargée", 2000);
         } else if (xhr.readyState == 4 && xhr.status != 200) {
             scriptstat("rouge", xhr.responseText, 0);
@@ -46,7 +50,52 @@ function getPlantDetails(id) {
     }
 
 }
+
+
+function getPlantDetailsSettings(id) {
+    // send xhr request to server with id of plant
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/webClientAPI", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(JSON.stringify({
+        "action": "getPlantDetails",
+        "id": id
+    }));
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            var response = JSON.parse(xhr.responseText);
+            // display data
+            document.getElementById("pid").innerHTML = response["id"];
+            document.getElementById("pcx").value = response["x"];
+            document.getElementById("pcy").value = response["y"];
+            document.getElementById("psa").innerHTML = response["surface"] + " pixels²";
+            //if image is not null
+            if (response["image"] != null) {
+                document.getElementById("pimg").src = "data:image/jpeg;base64," + response["image"];
+            }
+            scriptstat("vert", "Plante chargée", 2000);
+        } else if (xhr.readyState == 4 && xhr.status != 200) {
+            scriptstat("rouge", xhr.responseText, 0);
+        }
+
+    }
+
+}
+
+
 function launchPlantAcquisition(id) {
+    //get plant id
+    id = document.getElementById("pid").innerHTML;
+
+    //check if plant is a number
+    if (isNaN(id)) {
+        scriptstat("rouge", "Veuillez choisir une plante", 0);
+        return;
+    }
+
+    //String to int
+    id = parseInt(id);
+
     // send xhr request to server with id of plant
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "/webClientAPI", true);
@@ -82,4 +131,115 @@ function launchAcquisition() {
         }
     }
 
+}
+
+
+function deletePlant() {
+    // get plant id
+    var id = document.getElementById("pid").innerHTML;
+    //check if plant is a number
+    if (isNaN(id)) {
+        scriptstat("rouge", "Veuillez choisir une plante", 0);
+        return;
+    }
+    //String to int
+    id = parseInt(id);
+    // user confirmation
+    if (!confirm("Voulez-vous vraiment supprimer cette plante ?")) {
+        return;
+    }
+    // send xhr request to server with id of plant
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/webClientAPI", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(JSON.stringify({
+        "action": "deletePlant",
+        "id": id
+    }));
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            scriptstat("vert", "Plante supprimée", 2000);
+            // reload page
+            location.reload();
+        } else if (xhr.readyState == 4 && xhr.status != 200) {
+            scriptstat("rouge", "Erreur: " + xhr.responseText, 0);
+        }
+    }
+}
+
+function addPlant() {
+    // get x and y
+    var x = document.getElementById("new_pcx").value;
+    var y = document.getElementById("new_pcy").value;
+    //check if x and y are numbers
+    if (isNaN(x) || isNaN(y)) {
+        scriptstat("rouge", "Veuillez choisir une position", 0);
+        return;
+    }
+    //String to int
+    x = parseInt(x);
+    y = parseInt(y);
+    // send xhr request to server with x and y
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/webClientAPI", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(JSON.stringify({
+        "action": "addPlant",
+        "x": x,
+        "y": y
+    }));
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            scriptstat("vert", "Plante ajoutée", 2000);
+            // refresh page
+            location.reload();
+        } else if (xhr.readyState == 4 && xhr.status != 200) {
+            scriptstat("rouge", "Erreur: " + xhr.responseText, 0);
+        }
+    }
+}
+
+
+function updatePlant(){
+    // get plant id
+    var id = document.getElementById("pid").innerHTML;
+    //check if plant is a number
+    if (isNaN(id)) {
+        scriptstat("rouge", "Veuillez choisir une plante", 0);
+        return;
+    }
+    //String to int
+    id = parseInt(id);
+
+    // get x and y
+    var x = document.getElementById("pcx").value;
+    var y = document.getElementById("pcy").value;
+    //check if x and y are numbers
+    if (isNaN(x) || isNaN(y)) {
+        scriptstat("rouge", "Veuillez choisir une position", 0);
+        return;
+    }
+    //String to int
+    x = parseInt(x);
+    y = parseInt(y);
+
+    // send xhr request to server with x and y
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/webClientAPI", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(JSON.stringify({
+        "action": "updatePlant",
+        "id": id,
+        "x": x,
+        "y": y
+    }));
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            scriptstat("vert", "Plante modifiée", 2000);
+            // refresh page
+            location.reload();
+        } else if (xhr.readyState == 4 && xhr.status != 200) {
+            scriptstat("rouge", "Erreur: " + xhr.responseText, 0);
+        }
+    }
 }

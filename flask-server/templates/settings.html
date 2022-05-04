@@ -18,6 +18,19 @@
         src: url('{{ url_for('static', filename='font/Roboto-Bold.ttf') }}');
     }
 
+    p{
+        text-align: center;
+        padding: 0px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    table{
+        margin: 20px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
     .openmenu {
         height: 60px;
         width: 60px;
@@ -70,22 +83,37 @@
                 <div class="contentplangreenhouse grey">
                     <div class="greenhouse white">
                         {% for i in range(0,plants|length) %}
-                        <div class="plant" onclick="getPlantDetails({{ plants[i][0] }})" style="top:calc( {{ ( plants[i][1] / xmax) * 100 }}% - {{ 45*i }}px - 22px );left:calc( {{ ( plants[i][2] / ymax) * 100 }}% - 22px )"></div>
+                        <div class="plant" onclick="getPlantDetailsSettings({{ plants[i][0] }})" style="top:calc( {{ ( plants[i][1] / xmax) * 100 }}% - {{ 45*i }}px - 22px );left:calc( {{ ( plants[i][2] / ymax) * 100 }}% - 22px )"></div>
                         {% endfor %}
                     </div>
                     <div class="detailsplant">
                         <h1>Détails</h1>
-                        <img class="lastimage" src="{{ url_for('static', filename='img/no-image.svg') }}"></img>
+                        <img class="lastimage" id="pimg" src="{{ url_for('static', filename='img/no-image.svg') }}"></img>
                         <h1>Informations</h1>
                         <table>
                             <tr><td><p>Id:</p></td><td><p id="pid">?</p></td></tr>
-                            <tr><td><p>Coordonnée x:</p></td><td><p id="pcx">?</p></td></tr>
-                            <tr><td><p>Coordonnée y:</p></td><td><p id="pcy">?</p></td></tr>
+                            <tr><td><p>Coordonnée x (mm):</p></td><td><input id="pcx"/></td></tr>
+                            <tr><td><p>Coordonnée y (mm):</p></td><td><input id="pcy"/></td></tr>
                             <tr><td><p>Surface:</p></td><td><p id="psa">?</p></td></tr>
                         </table>
-                        <button class="launchplantbutton" onclick="launchPlantAcquisition();">Modifier les informations</button>
-                        <button class="launchplantbutton red" onclick="launchPlantAcquisition();">Supprimer la plante</button>
+                        <button class="launchplantbutton" onclick="updatePlant();">Modifier les informations</button>
+                        <button class="launchplantbutton red" onclick="deletePlant();">Supprimer la plante</button>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="last-environment-measures white">
+            <div style="display:flex;flex-flow:row">
+                <p class="titlebox">Ajouter une plante</p>
+            </div>
+            <div class="elementscontainer">
+                <div class="detailsplant" style="width: 100%;">
+                    <h1>Informations</h1>
+                    <table>
+                        <tr><td><p>Coordonnée x (mm):</p></td><td><input id="new_pcx"/></td></tr>
+                        <tr><td><p>Coordonnée y (mm):</p></td><td><input id="new_pcy"/></td></tr>
+                    </table>
+                    <button class="launchplantbutton" onclick="addPlant();">Ajouter une plante</button>
                 </div>
             </div>
         </div>
