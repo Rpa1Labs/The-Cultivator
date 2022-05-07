@@ -1,0 +1,11 @@
+[Unit]
+Description=TheCultivator Greenhouse stepMotors Program
+
+[Service]
+User=root
+WorkingDirectory=##PATH##
+ExecStart=/bin/bash -c './stepMotors/execStepper'
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

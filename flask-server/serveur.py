@@ -25,13 +25,15 @@ socketio = SocketIO(app)
 #sqlite3 database
 database = "data.db"
 
+#incrément pas terrible pour récupérer le nombre d'appareils connectés
+nbconnected = 0
 
 # InfluxDB database tokens and names
 token = "b-6r8CDUz3QffJeawBtbxseUizxGGRrYaARD72RbxdFf4Occ_Y4T8-fH882nsPrrSdO7tgGupArG6jzW0RoJog=="
 org = "Polytech"
 bucket = "Environnement_measures"
 bucket2="Image"
-bddUrl = "http://54.36.191.243:8086"
+bddUrl = "http://127.0.0.1:8086"
 
 """
 SQL Database
@@ -90,14 +92,17 @@ SocketIO
 # Soketio connection event
 @socketio.on('connect')
 def on_connect():
+    global nbconnected
     print('Server received connection')
+    nbconnected += 1
 
 # Socketio disconnect event
 @socketio.on('disconnect')
 def on_disconnect():
-    global jetson
+    global nbconnected
     #TODO: manage disconnection for data acquisition triggering
     print('Client disconnected')
+    nbconnected -= 1
 
 
 # Soketio message event
@@ -150,7 +155,6 @@ def launchAcquisition():
 def launchPlantAcquisition(id):
     print("Plant acquisition launched")
     #send image trigger to jetson
-    global jetson
     socketio.emit('imageTrigger', json.dumps({"id":id,"x":getPlant(id)[1],"y":getPlant(id)[2]}))
 
 #Setup trigger for data acquisition
@@ -247,6 +251,7 @@ def settings():
     #pas terrible mais pas de temps pour le moment
     xmax = 1030
     ymax = 328
+
     
     #TODO: faire un truc plus propre
     return render_template("./settings.html" , plants = getPlants(), xmax=xmax, ymax=ymax)
@@ -259,6 +264,7 @@ HTTP API PART
 #API web client
 @app.route("/webClientAPI", methods = ['POST'])
 def WEBAPI():
+    global nbconnected
     data = request.get_json()
     #get action
     action = data["action"]
@@ -273,7 +279,7 @@ def WEBAPI():
         #check if plant coordinates are valid
         if data["x"] > 1030 or data["x"] < 0 or data["y"] > 328 or data["y"] < 0:
             code = 400
-            data_return = {"error":"Coordinates are not valid"}
+            data_return = "Coordonnees non valides"
         else:
             addPlant(data["x"],data["y"])
             data_return = getPlants()
@@ -282,18 +288,26 @@ def WEBAPI():
     elif action == "getPlant":
         data_return = getPlant(data["id"])
     elif action == "launchAcquisition":
-        launchAcquisition()
+        if nbconnected > 0:
+            launchAcquisition()
+        else:
+            code = 400
+            data_return = "Pas de serre connecte"
     elif action == "launchPlantAcquisition":
         #get plant id
         plantId = data["id"]
-        launchPlantAcquisition(plantId)
+        if nbconnected > 0:
+            launchPlantAcquisition(plantId)
+        else:
+            code = 400
+            data_return = "Pas de serre connecte"
     elif action == "deletePlant":
         deletePlant(data["id"])
     elif action == "updatePlant":
         #check if plant coordinates are valid
         if data["x"] > 1030 or data["x"] < 0 or data["y"] > 328 or data["y"] < 0:
             code = 400
-            data_return = {"error":"Coordinates are not valid"}
+            data_return = "Coordonnées non valides"
         else:
             updatePlant(data["id"],data["x"],data["y"])
             data_return = getPlants()
@@ -312,10 +326,10 @@ def WEBAPI():
             data_return = { "id": result[0], "x": result[1], "y": result[2],  "image": image["imagevalue"], "surface":image["surface"] }
         except:
             code = 404
-            data_return = "Plant not found"
+            data_return = "Plante introuvable"
     else:
         code = 400
-        data_return = "Unknown action"
+        data_return = "Action non reconnue"
 
     return json.dumps(data_return), code , {'Content-Type':'application/json'}
 

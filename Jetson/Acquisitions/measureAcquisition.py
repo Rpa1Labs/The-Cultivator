@@ -35,7 +35,7 @@ def sendData():
     sio = socketio.Client()
 
     #Server connection
-    sio.connect('http://192.168.31.235:5000')
+    sio.connect('http://54.36.191.243:5000')
 
     #Send data to the server
     sio.emit("dataTransmission", getMeasurements())

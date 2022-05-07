@@ -1,0 +1,11 @@
+[Unit]
+Description=TheCultivator Greenhouse Program
+
+[Service]
+User=##USER##
+WorkingDirectory=##PATH##
+ExecStart=/bin/bash -c 'cd ##PATH## && /usr/bin/python Acquisitions/main.py'
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
