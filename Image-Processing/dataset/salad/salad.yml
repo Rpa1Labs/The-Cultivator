@@ -1,0 +1,5 @@
+val: images/val
+path: data/salad
+train: images/train
+nc: 1
+names: saldad

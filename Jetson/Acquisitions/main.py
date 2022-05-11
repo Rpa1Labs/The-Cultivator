@@ -100,8 +100,17 @@ def measureTrigger(data):
     result = getMeasurements()
     sio.emit("dataTransmission", result)
 
+# Get web server url in config.json
 
-sio.connect('http://54.36.191.243:5000')
+URL = ""
+
+with open('config.json') as json_file:
+    data = json.load(json_file)
+    URL = data['url']
+
+print("Connecting to " + URL)
+
+sio.connect(URL)
 #run forever
 while True:
     sio.wait()

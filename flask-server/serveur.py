@@ -28,12 +28,24 @@ database = "data.db"
 #incrément pas terrible pour récupérer le nombre d'appareils connectés
 nbconnected = 0
 
+
 # InfluxDB database tokens and names
-token = "b-6r8CDUz3QffJeawBtbxseUizxGGRrYaARD72RbxdFf4Occ_Y4T8-fH882nsPrrSdO7tgGupArG6jzW0RoJog=="
-org = "Polytech"
+token = ""
+org = ""
+bddUrl = ""
 bucket = "Environnement_measures"
 bucket2="Image"
-bddUrl = "http://127.0.0.1:8086"
+
+# Get influxdb url, token and org into config.json in the same path as the server
+with open('config.json') as json_file:
+    data = json.load(json_file)
+    bddUrl = data['bddUrl']
+    token = data['token']
+    org = data['org']
+
+print(token)
+print(org)
+print(bddUrl)
 
 """
 SQL Database
