@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
+  <Tracking>
+    <ImageTarget name="face_gauche" size="0.150000 0.105836" />
+    <ImageTarget name="face_droite" size="0.150000 0.104740" />
+    <ImageTarget name="face_arriere" size="0.150000 0.114188" />
+    <ImageTarget name="face_avant" size="0.150000 0.110408" />
+  </Tracking>
+</QCARConfig>
