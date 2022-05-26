@@ -37,10 +37,10 @@ Librairies C++ requises:
 JetsonGPIO.h
 ```
 
-Copiez-la dans le fichier `config-sample.json` et renommez-le en `config.json`
+Dans le dossier `Jetson`, copiez le fichier `config-sample.json` et renommez-le en `config.json`
 
 Complétez le fichier `config.json` avec les informations suivantes:
- - l'url de votre serveur web
+ - l'url de votre serveur web. Exemple : `http://127.0.0.1:5000`
 
 Exécutez la commande suivante dans le dossier Jetson:
 ```sh
@@ -79,14 +79,14 @@ Image
 
 Ensuite, récupérez la clé API de votre compte influxdb
 
-Copiez-la dans le fichier `config-sample.json` et renommez-le en `config.json`
+Dans le dossier `flask-server`, copiez le fichier `config-sample.json` et renommez-le en `config.json`
 
 Complétez le fichier `config.json` avec les informations suivantes:
  - la clé API de votre base InfluxDB (token)
  - l'url de votre base InfluxDB
  - le nom de l'organisation de votre base InfluxDB
 
-Enfin, exécutez les commandes suivantes dans le dossier flask-server:
+Enfin, exécutez les commandes suivantes dans le dossier flask-server afin de démarrer le serveur:
 ```sh
 screen
 sudo python3 serveur.py
